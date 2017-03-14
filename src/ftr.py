@@ -59,12 +59,16 @@ def main():
         delta = (0,0)
         if pressed[pygame.K_LEFT]:
             delta = util.tupadd(delta, (-const.FTR_X_DELTA,0))
-        if pressed[K_UP]:
+        if pressed[pygame.K_UP]:
             delta = util.tupadd(delta, (0,-const.FTR_Y_DELTA))
-        if pressed[K_DOWN]:
+        if pressed[pygame.K_DOWN]:
             delta = util.tupadd(delta, (0,const.FTR_Y_DELTA))
-        if pressed[K_RIGHT]:
+        if pressed[pygame.K_RIGHT]:
             delta = util.tupadd(delta, (const.FTR_X_DELTA,0))
+        if pressed[pygame.K_SPACE]:
+            shoot = True
+        else:
+            shoot = False
         ftr.move(delta, scr.get_size())
 
         clock.tick(const.FRAMERATE)
@@ -72,7 +76,8 @@ def main():
         # Update the screen.
         draw_bg(scr, bg)
         draw_ftr(scr, ftr)
-        ftr.shoot(scr)
+        if shoot:
+            ftr.shoot(scr)
         pygame.display.flip()
 
     pygame.quit()
