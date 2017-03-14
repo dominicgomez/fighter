@@ -46,7 +46,12 @@ class Fighter(pygame.sprite.Sprite):
 
         """
         proj = Projectile()
-        scr.blit(proj.img, (self.pos[0]+self.img.get_width()/2,self.pos[1]))
+        (ftr_x,ftr_y) = self.pos
+        (ftr_w,_) = self.img.get_size()
+        (proj_w,proj_h) = proj.img.get_size()
+        proj_x = ftr_x + (ftr_w / 2) - (proj_w / 2)
+        proj_y = ftr_y - proj_h
+        scr.blit(proj.img, (proj_x,proj_y))
 
     def __get_init_pos(self, res):
         """Get an initial position for the fighter (the center of the bottom
