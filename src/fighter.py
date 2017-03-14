@@ -38,20 +38,17 @@ class Fighter(pygame.sprite.Sprite):
 
         """
         pos = self.__get_new_pos(delta)
-        if self.__is_in_bounds(pos, res):
+        if util.is_in_bounds(self.img.get_size(), pos, res):
             self.pos = pos
 
-    def shoot(self, scr):
+    def shoot(self):
         """Shoot a projectile.
 
+        Return:
+            (projectile.Projectile): The projectile that was just shot.
+
         """
-        proj = Projectile()
-        (ftr_x,ftr_y) = self.pos
-        (ftr_w,_) = self.img.get_size()
-        (proj_w,proj_h) = proj.img.get_size()
-        proj_x = ftr_x + (ftr_w / 2) - (proj_w / 2)
-        proj_y = ftr_y - proj_h
-        scr.blit(proj.img, (proj_x,proj_y))
+        return Projectile(self)
 
     def __get_init_pos(self, res):
         """Get an initial position for the fighter (the center of the bottom
@@ -87,21 +84,3 @@ class Fighter(pygame.sprite.Sprite):
 
         """
         return util.tupadd(self.pos, delta)
-
-    def __is_in_bounds(self, pos, res):
-        """Determine whether the fighter would be completely visible at the
-        given position.
-
-        Args:
-            pos ((int,int)): The (x,y) coords of the new potential location.
-            res ((int,int)): The (w,h) dimensions of the screen.
-
-        """
-        (x,y) = pos
-        (scr_w,scr_h) = res
-        (ftr_w,ftr_h) = self.img.get_size()
-        # Make sure it's not too high or too far left.
-        if x < 0 or y < 0: return False
-        # Make sure it's not too low or too far right.
-        if x > (scr_w - ftr_w) or y > (scr_h - ftr_h): return False
-        return True

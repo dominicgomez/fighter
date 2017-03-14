@@ -39,12 +39,26 @@ def draw_ftr(scr, ftr):
     """
     scr.blit(ftr.img, ftr.pos)
 
+def move_projs(projs, res):
+    """Advance the positions of the projectiles on screen, and remove the ones
+    that have moved off screen."""
+    (scr_w,scr_h) = res
+    for proj in projs:
+        (x,y) = proj.pos
+        proj.pos = (x,y-const.PROJ_DELTA)
+
+def draw_projs(scr, projs):
+    """Draw the projectiles."""
+    for proj in projs:
+        scr.blit(proj.img, proj.pos)
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
     scr = pygame.display.set_mode((const.SCR_W,const.SCR_H))
     bg = pygame.image.load(const.BG_IMG)
     ftr = Fighter(scr.get_size())
+    projs = []
 
     running = True
     while running:
@@ -56,28 +70,23 @@ def main():
         pressed = pygame.key.get_pressed()
         # Keep track of the total change in direction so we only have
         # to issue one call to move
-        delta = (0,0)
-        if pressed[pygame.K_LEFT]:
-            delta = util.tupadd(delta, (-const.FTR_X_DELTA,0))
-        if pressed[pygame.K_UP]:
-            delta = util.tupadd(delta, (0,-const.FTR_Y_DELTA))
-        if pressed[pygame.K_DOWN]:
-            delta = util.tupadd(delta, (0,const.FTR_Y_DELTA))
-        if pressed[pygame.K_RIGHT]:
-            delta = util.tupadd(delta, (const.FTR_X_DELTA,0))
-        if pressed[pygame.K_SPACE]:
-            shoot = True
-        else:
-            shoot = False
-        ftr.move(delta, scr.get_size())
+        (x_delta,y_delta) = (0,0)
+        if pressed[K_LEFT]: x_delta -= const.FTR_X_DELTA
+        if pressed[K_UP]: y_delta -= const.FTR_Y_DELTA
+        if pressed[K_DOWN]: y_delta += const.FTR_Y_DELTA
+        if pressed[K_RIGHT]: x_delta += const.FTR_X_DELTA
+        if pressed[K_SPACE]: projs.append(ftr.shoot())
+
+        # Move the objects on screen
+        ftr.move((x_delta,y_delta), scr.get_size())
+        move_projs(projs, scr.get_size())
 
         clock.tick(const.FRAMERATE)
 
         # Update the screen.
         draw_bg(scr, bg)
         draw_ftr(scr, ftr)
-        if shoot:
-            ftr.shoot(scr)
+        draw_projs(scr, projs)
         pygame.display.flip()
 
     pygame.quit()

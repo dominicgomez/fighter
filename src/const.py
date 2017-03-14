@@ -21,5 +21,8 @@ SCR_H = 1000
 FTR_X_DELTA = 5
 FTR_Y_DELTA = 5
 
+# The number of pixels that projectiles move each frame.
+PROJ_DELTA = 10
+
 # I don't really know how this works
 FRAMERATE = 60
