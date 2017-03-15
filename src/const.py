@@ -12,6 +12,7 @@ RES_DIR = os.path.join('..', 'res')
 BG_IMG = os.path.join(RES_DIR, 'bg.png')
 FTR_IMG = os.path.join(RES_DIR, 'ftr.png')
 PROJ_IMG = os.path.join(RES_DIR, 'proj.png')
+ENEMY_IMG = os.path.join(RES_DIR, 'enemy.png')
 
 # Screen size:
 SCR_W = 800
