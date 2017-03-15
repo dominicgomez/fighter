@@ -40,8 +40,7 @@ def draw_ftr(scr, ftr):
     scr.blit(ftr.img, ftr.pos)
 
 def move_projs(projs, res):
-    """Advance the positions of the projectiles on screen, and remove the ones
-    that have moved off screen."""
+    """Advance the positions of the projectiles on screen."""
     (scr_w,scr_h) = res
     for proj in projs:
         (x,y) = proj.pos
@@ -80,6 +79,11 @@ def main():
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())
         move_projs(projs, scr.get_size())
+
+        # Remove the projectiles that have moved off screen
+        projs = [proj for proj in projs if
+            util.is_in_bounds(proj.img.get_size(), proj.pos, scr.get_size())]
+        print(len(projs))
 
         clock.tick(const.FRAMERATE)
 
