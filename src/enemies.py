@@ -12,5 +12,6 @@ class __Enemy(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.img = pygame.image.load(const.ENEMY_IMG)
 
-def spawn_static(n, ring):
-    pass
+def spawn_static(n, min_x, max_x, min_y, max_y):
+    xs = None
+    ys = None

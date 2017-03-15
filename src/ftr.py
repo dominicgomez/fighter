@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 __author__ = 'Dominic Gomez'
 __email__ = 'DominicAnthonyGomez@gmail.com'
 
