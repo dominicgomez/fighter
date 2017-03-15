@@ -85,7 +85,6 @@ def main():
 
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())
-        move_projs(projs)
 
         # Remove the projectiles that have moved off screen
         projs = [proj for proj in projs if
@@ -98,6 +97,8 @@ def main():
         draw_ftr(scr, ftr)
         draw_projs(scr, projs)
         pygame.display.flip()
+
+        move_projs(projs)
 
     pygame.quit()
 
