@@ -21,6 +21,11 @@ class Projectile(pygame.sprite.Sprite):
     def move(self):
         """Advance the projectile's position."""
 
+    def is_on_screen(self, res):
+        """Determine if any part of the projectile is still on screen."""
+        (x,y) = self.pos
+        return y > -self.img.get_height()
+
     def __get_init_pos(self, ftr):
         (ftr_x,ftr_y) = ftr.pos
         (ftr_w,_) = ftr.img.get_size()

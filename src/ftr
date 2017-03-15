@@ -89,8 +89,7 @@ def main():
         ftr.move((x_delta,y_delta), scr.get_size())
 
         # Remove the projectiles that have moved off screen
-        projs = [proj for proj in projs if
-            util.is_in_bounds(proj.img.get_size(), proj.pos, scr.get_size())]
+        projs = [proj for proj in projs if proj.is_on_screen(scr.get_size())]
 
         clock.tick(const.FRAMERATE)
 
