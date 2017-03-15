@@ -39,9 +39,8 @@ def draw_ftr(scr, ftr):
     """
     scr.blit(ftr.img, ftr.pos)
 
-def move_projs(projs, res):
+def move_projs(projs):
     """Advance the positions of the projectiles on screen."""
-    (scr_w,scr_h) = res
     for proj in projs:
         (x,y) = proj.pos
         proj.pos = (x,y-const.PROJ_DELTA)
@@ -64,26 +63,33 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                # You can only shoot once per frame, the key must be pressed
+                # down each time.
+                if event.key == pygame.K_SPACE:
+                    projs.append(ftr.shoot())
 
         # But why are you pressed tho?
         pressed = pygame.key.get_pressed()
         # Keep track of the total change in direction so we only have
         # to issue one call to move
         (x_delta,y_delta) = (0,0)
-        if pressed[K_LEFT]: x_delta -= const.FTR_X_DELTA
-        if pressed[K_UP]: y_delta -= const.FTR_Y_DELTA
-        if pressed[K_DOWN]: y_delta += const.FTR_Y_DELTA
-        if pressed[K_RIGHT]: x_delta += const.FTR_X_DELTA
-        if pressed[K_SPACE]: projs.append(ftr.shoot())
+        if pressed[pygame.K_LEFT]:
+            x_delta -= const.FTR_X_DELTA
+        if pressed[pygame.K_UP]:
+            y_delta -= const.FTR_Y_DELTA
+        if pressed[pygame.K_DOWN]:
+            y_delta += const.FTR_Y_DELTA
+        if pressed[pygame.K_RIGHT]:
+            x_delta += const.FTR_X_DELTA
 
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())
-        move_projs(projs, scr.get_size())
+        move_projs(projs)
 
         # Remove the projectiles that have moved off screen
         projs = [proj for proj in projs if
             util.is_in_bounds(proj.img.get_size(), proj.pos, scr.get_size())]
-        print(len(projs))
 
         clock.tick(const.FRAMERATE)
 
