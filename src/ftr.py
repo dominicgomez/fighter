@@ -11,6 +11,7 @@ import pygame
 from pygame.locals import *
 
 import const
+from enemy import Enemy
 from fighter import Fighter
 import util
 
@@ -50,6 +51,11 @@ def draw_projs(scr, projs):
     for proj in projs:
         scr.blit(proj.img, proj.pos)
 
+def draw_enemies(scr, enemies):
+    """Draw the enemies."""
+    for enemy in enemies:
+        scr.blit(enemy.img, enemy.pos)
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
@@ -57,6 +63,7 @@ def main():
     bg = pygame.image.load(const.BG_IMG)
     ftr = Fighter(scr.get_size())
     projs = []
+    enemies = []
 
     running = True
     while running:
@@ -68,6 +75,8 @@ def main():
                 # down each time.
                 if event.key == pygame.K_SPACE:
                     projs.append(ftr.shoot())
+
+        enemies.append(Enemy(scr.get_size()))
 
         # But why are you pressed tho?
         pressed = pygame.key.get_pressed()
@@ -95,6 +104,7 @@ def main():
         draw_bg(scr, bg)
         draw_ftr(scr, ftr)
         draw_projs(scr, projs)
+        draw_enemies(scr, enemies)
         pygame.display.flip()
 
         move_projs(projs)
