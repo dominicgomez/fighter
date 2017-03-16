@@ -45,6 +45,8 @@ def move_projs(projs):
     for proj in projs:
         (x,y) = proj.pos
         proj.pos = (x,y-const.PROJ_DELTA)
+        # Move their hitboxes
+        proj.hitbox = proj.img.get_rect(topleft=proj.pos)
 
 def draw_projs(scr, projs):
     """Draw the projectiles."""
@@ -60,6 +62,7 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     scr = pygame.display.set_mode((const.SCR_W,const.SCR_H))
+    rect = scr.get_rect()
     bg = pygame.image.load(const.BG_IMG)
     ftr = Fighter(scr.get_size())
     projs = []
@@ -76,7 +79,8 @@ def main():
                 if event.key == pygame.K_SPACE:
                     projs.append(ftr.shoot())
 
-        enemies.append(Enemy(scr.get_size()))
+        if not enemies:
+            enemies.append(Enemy(scr.get_size()))
 
         # But why are you pressed tho?
         pressed = pygame.key.get_pressed()
@@ -91,6 +95,13 @@ def main():
             y_delta += const.FTR_Y_DELTA
         if pressed[pygame.K_RIGHT]:
             x_delta += const.FTR_X_DELTA
+
+        # Collision detection
+        # Check if any of the projectiles have hit any of the enemies.
+        for proj in projs:
+            for enemy in enemies:
+                if proj.hitbox.colliderect(enemy.hitbox):
+                    print('Collision')
 
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())

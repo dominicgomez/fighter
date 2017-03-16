@@ -15,9 +15,8 @@ class Projectile(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.img = pygame.image.load(const.PROJ_IMG)
-        self.hitbox = None
         self.pos = self.__get_init_pos(ftr)
-
+        self.hitbox = self.img.get_rect(topleft=self.pos)
     def move(self):
         """Advance the projectile's position."""
 

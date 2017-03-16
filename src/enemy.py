@@ -25,8 +25,8 @@ class Enemy(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.img = pygame.image.load(const.ENEMY_IMG)
-        self.hitbox = None
         self.pos = self.__get_rand_pos(res) if pos is None else pos
+        self.hitbox = self.img.get_rect(topleft=self.pos)
         self.attack = 1
         self.defense = 1
 
