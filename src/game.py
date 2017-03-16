@@ -1,12 +1,7 @@
 __author__ = 'Dominic Gomez'
 __email__ = 'DominicAnthonyGomez@gmail.com'
 
-"""Fighter: A Galaga-inspired shooter game.
-
-This module contains the game's main loop.
-
-"""
-
+import os
 import pygame
 from pygame.locals import *
 
@@ -14,6 +9,30 @@ import const
 from enemy import Enemy
 from fighter import Fighter
 import util
+
+class Game:
+
+    def __init__(self):
+        """Initialize a new game.
+
+        """
+        pygame.init()
+        self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode(__SCREEN_RES)
+        self.rect = self.screen.get_rect()
+        self.bg = Background()
+
+    pygame.init()
+    clock = pygame.time.Clock()
+    scr = pygame.display.set_mode((const.SCR_W,const.SCR_H))
+    rect = scr.get_rect()
+    bg = pygame.image.load(const.BG_IMG)
+    ftr = Fighter(scr.get_size())
+    projs = []
+    enemies = []
+
+    def show_menu(self):
+        """Show the game's menu."""
 
 def draw_bg(scr, bg):
     """Draw the game's background.

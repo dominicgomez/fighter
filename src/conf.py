@@ -1,12 +1,12 @@
 __author__ = 'Dominic Gomez'
 __email__ = 'DominicAnthonyGomez@gmail.com'
 
-"""The game's constants.
+"""Configuration and settings.
 
     Data:
-        NAME (str): The game's name.
-        AUTHOR (str): The game's author.
-        VERSION (str): The game's version.
+        game_name (str): The game's name.
+        game_author (str): The game's author.
+        game_version (str): The game's version.
 
         SCREEN_RES ((int,int)): The screen resolution.
 
@@ -41,39 +41,37 @@ __email__ = 'DominicAnthonyGomez@gmail.com'
 
 """
 
-import os
-
 game_name = 'Fighter'
 game_author = 'Dominic Gomez'
-VERSION = None
+game_version = None
 
-SCREEN_RES = (600,800)
+screen_resolution = (600,800)
 
-TITLE_FONT_SIZE = 12
-FONT_SIZE = 12
+framerate = 60
 
-FIGHTER_COLORS = ['blue','green','orange','red']
-ENEMY_COLORS = ['black','blue','green','red']
+title_font_size = 12
+font_size = 12
 
-RES_DIR = os.path.join('..', 'res')
-FONT_RES_DIR = os.path.join(__RES_DIR, 'font')
-IMG_RES_DIR = os.path.join(__RES_DIR, 'img')
-AUDIO_RES_DIR = os.path.join(__RES_DIR, 'audio')
+fighter_colors = ['blue','green','orange','red']
+enemy_colors = ['black','blue','green','red']
 
-TITLE_FONT_FILE = os.path.join(__FONT_RES_DIR, 'title_font.ttf')
-FONT_FILE = os.path.join(__FONT_RES_DIR, 'font.ttf')
+res_dir = os.path.join('..', 'res')
+font_res_dir = os.path.join(res_dir, 'font')
+img_res_dir = os.path.join(res_dir, 'img')
+audio_res_dir = os.path.join(res_dir, 'audio')
 
-BG_IMG_FILE = os.path.join(__IMG_RES_DIR, 'bg_blue_stars.png')
-FIGHTER_IMG_FILE_FMT = os.path.join(__IMG_RES_DIR, 'fighter_{color}.png')
-PROJECTILE_IMG_FILE_FMT = os.path.join(__IMG_RES_DIR, 'proj.png')
-ENEMY_IMG_FILE_FMT = os.path.join(__IMG_RES_DIR, 'enemy_{color}.png')
+title_font_file = os.path.join(font_res_dir, 'title_font.ttf')
+font_file = os.path.join(font_res_dir, 'font.ttf')
 
-MAIN_MENU_ITEMS = ['play','high scores','settings']
-GAME_MODES = ['standard','survival']
+bg_img_file = os.path.join(img_res_dir, 'bg_blue_stars.png')
+fighter_img_file_fmt = os.path.join(img_res_dir, 'fighter_{color}.png')
+projectile_img_file_fmt = os.path.join(img_res_dir, 'proj.png')
+enemy_img_file_fmt = os.path.join(img_res_dir, 'enemy_{color}.png')
 
-FIGHTER_SPEED = 5
-FIGHTER_PROJECTILE_SPEED = 10
-ENEMY_SPEED_RNG = (0,10)
-ENEMY_PROJECTILE_SPEED_RNG = ()
+main_menu_items = ['play','high scores','settings']
+game_modes = ['standard','survival']
 
-FRAMERATE = 60
+fighter_speed = 5
+fighter_projectile_speed = 10
+enemy_speed_rng = (0,10)
+enemy_projectile_speed_rng = (5,15)
