@@ -97,11 +97,8 @@ def main():
             x_delta += const.FTR_X_DELTA
 
         # Collision detection
-        # Check if any of the projectiles have hit any of the enemies.
-        for proj in projs:
-            for enemy in enemies:
-                if proj.hitbox.colliderect(enemy.hitbox):
-                    print('Collision')
+        enemies = [e for e in enemies if not e.has_been_popped(projs)]
+        projs = [proj for proj in projs if not proj.collided]
 
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())

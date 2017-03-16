@@ -30,6 +30,15 @@ class Enemy(pygame.sprite.Sprite):
         self.attack = 1
         self.defense = 1
 
+    def has_been_popped(self, projs):
+        """Determine if any of the projectiles on screen have hit this
+        enemy."""
+        for proj in projs:
+            if proj.hitbox.colliderect(self.hitbox):
+                proj.collided = True
+                return True
+        return False
+
     def __get_rand_pos(self, res):
         (scr_w,scr_h) = res
         (enemy_w,enemy_h) = self.img.get_size()
