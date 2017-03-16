@@ -96,10 +96,6 @@ def main():
         if pressed[pygame.K_RIGHT]:
             x_delta += const.FTR_X_DELTA
 
-        # Collision detection
-        enemies = [e for e in enemies if not e.has_been_popped(projs)]
-        projs = [proj for proj in projs if not proj.collided]
-
         # Move the objects on screen
         ftr.move((x_delta,y_delta), scr.get_size())
 
@@ -113,9 +109,15 @@ def main():
         draw_ftr(scr, ftr)
         draw_projs(scr, projs)
         draw_enemies(scr, enemies)
-        pygame.display.flip()
 
         move_projs(projs)
+
+        # Collision detection
+        enemies = [e for e in enemies if not e.has_been_popped(projs)]
+        projs = [proj for proj in projs if not proj.collided]
+
+        pygame.display.flip()
+
 
     pygame.quit()
 

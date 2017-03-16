@@ -9,10 +9,10 @@ import os
 RES_DIR = os.path.join('..', 'res')
 
 # Paths to image files:
-BG_IMG = os.path.join(RES_DIR, 'bg.png')
-FTR_IMG = os.path.join(RES_DIR, 'ftr.png')
+BG_IMG = os.path.join(RES_DIR, 'bg_blue_stars.png')
+FTR_IMG = os.path.join(RES_DIR, 'fighter_red.png')
 PROJ_IMG = os.path.join(RES_DIR, 'proj.png')
-ENEMY_IMG = os.path.join(RES_DIR, 'enemy.png')
+ENEMY_IMG = os.path.join(RES_DIR, 'enemy_green.png')
 
 # Screen size:
 SCR_W = 800
