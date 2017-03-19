@@ -27,6 +27,16 @@ class Scene(abc.ABC):
         pass
 
 class TitleScene(Scene):
+    # TODO: Maybe make all of the screen's components a tuple (a,b), where a is
+    # the thing to display (like the rasterized label) and b is the ordered
+    # pair pointing to its upper left hand corner. These could also be the
+    # values for a map whose keys are the names of the scenes:
+    # 'title','play','high scores','settings'.
+    # I could also just have a separate list with all of the scenes, but I
+    # think I like the map idea more.
+    # Just some thoughts. I'm really sleepy. I didn't sleep last night, and all
+    # I've had is really strong coffee. That's crazy. I should really get some
+    # sleep.
     """The game's first screen."""
 
     def __init__(self, screen):
