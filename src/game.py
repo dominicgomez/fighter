@@ -10,24 +10,42 @@ from fighter import Fighter
 from pygame.locals import *
 
 class TitleScene:
-    # The size of the font used for the game's title.
-    __TITLE_FONT_SIZE = 80
-    # A path to the font used for the game's title.
-    __TITLE_FONT_FILE = os.path.join(dirs.FONT_RES_DIR, 'title_font.ttf')
     # The options to choose from.
     __OPTIONS = ['play','high scores','settings']
 
     def draw(self, screen):
-        title_font = pygame.font.Font(TitleScene.__TITLE_FONT_FILE,
-                                      TitleScene.__TITLE_FONT_SIZE)
-        title_label = title_font.render(Game.NAME, True, (0,0,0))
-        screen.blit(title_label, (0,0))
+        options_pos = self.__draw_title(screen)
+        self.__draw_options(screen, options_pos)
 
     def update(self):
         pass
 
     def handle_event(self, event, keys):
         pass
+
+    def __draw_title(self, screen):
+        title_font = pygame.font.Font(Game.TITLE_FONT_FILE,
+                                      Game.TITLE_FONT_SIZE)
+        title_label = title_font.render(Game.NAME, True, (0,0,0))
+        title_pos = self.__center_title(screen.get_rect(),
+                                        title_label.get_rect())
+        screen.blit(title_label, title_pos)
+        return title_label.get_rect(topleft=title_pos).bottomleft
+
+    def __center_title(self, screen_rect, title_rect):
+        # Get the center of the screen, and offset the title appropriately.
+        x = screen_rect.centerx - int(title_rect.width / 2)
+        y = screen_rect.centery - int(title_rect.height / 2)
+        return (x,y)
+
+    def __draw_options(self, screen, options_pos):
+        font = pygame.font.Font(Game.FONT_FILE, Game.FONT_SIZE)
+        option_labels = []
+        for option in TitleScene.__OPTIONS:
+            option_labels.append(font.render(option, True, (0,0,0)))
+        for option_label in option_labels:
+            screen.blit(option_label, options_pos)
+            options_pos = (options_pos[0],options_pos[1]+option_label.get_height())
 
 class PlayScene:
     def draw(self, screen):
@@ -75,11 +93,15 @@ class Game:
     # thereafter.
     __SCREEN_RES = (600,800)
     # A path to the game's background image file.
-    __BG_IMG_FILE = os.path.join(dirs.IMG_RES_DIR, 'bg_blue_stars.png')
+    __BG_IMG_FILE = os.path.join(dirs.IMG_RES_DIR, 'bg_solid_purple.png')
+    # The size of the font used for the game's title.
+    TITLE_FONT_SIZE = 100
+    # A path to the font used for the game's title.
+    TITLE_FONT_FILE = os.path.join(dirs.FONT_RES_DIR, 'title_font.ttf')
     # The size of the font used for all other text in the game.
-    __FONT_SIZE = 12
+    FONT_SIZE = 32
     # A path to the font used for all other text in the game.
-    __FONT_FILE = os.path.join(dirs.FONT_RES_DIR, 'font.ttf')
+    FONT_FILE = os.path.join(dirs.FONT_RES_DIR, 'font.ttf')
     # The game's scenes.
     __SCENES = {
         'title' : TitleScene(),
@@ -105,6 +127,7 @@ class Game:
         self.screen = pygame.display.set_mode(Game.__SCREEN_RES)
         self.bg = pygame.image.load(Game.__BG_IMG_FILE)
         self.scene = Game.__SCENES['title']
+        # self.scene = Game.__SCENES['play']
 
     def update(self):
         self.__draw_bg()
