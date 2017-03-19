@@ -1,6 +1,8 @@
 __author__ = 'Dominic Gomez'
 __email__ = 'DominicAnthonyGomez@gmail.com'
 
+import dirs
+import os
 import pygame
 import random
 
@@ -17,7 +19,7 @@ class Enemy(pygame.sprite.Sprite):
     __COLORS = ['black','blue','green','red']
     # All enemy image files are in this format. A random enemy color is chosen
     # and loaded when the constructor is called.
-    __IMG_FILE_FMT = os.path.join(img_res_dir, 'enemy_{color}.png')
+    __IMG_FILE_FMT = os.path.join(dirs.IMG_RES_DIR, 'enemy_{color}.png')
 
     def __init__(self, screen_res):
         """Initialize an enemy object.
@@ -26,6 +28,8 @@ class Enemy(pygame.sprite.Sprite):
             screen_res ((int,int)): The (w,h) dimensions of the screen.
 
         Attrs:
+            alive (bool): Whether the enemy is alive. The game should set this
+                flag to False when it detects a collision involving this enemy.
             img (pygame.Surface): The enemy's image.
             pos ((int,int)): The (x,y) coords of the enemy's image.
             rect (pygame.Rect): The rectangle that surrounds the enemy's image.
@@ -37,21 +41,22 @@ class Enemy(pygame.sprite.Sprite):
 
         """
         pygame.sprite.Sprite.__init__(self)
-        self.img = pygame.image.load(const.ENEMY_IMG)
+
+        self.alive = True
+        self.img = pygame.image.load(self.__get_rand_enemy_file())
         self.pos = self.__get_rand_pos(screen_res)
         self.rect = self.img.get_rect(topleft=self.pos)
-        self.hitbox = self.img.get_rect(topleft=self.pos)
+        self.hitbox = self.rect
         self.attack = 1
         self.defense = 1
+        self.projectiles = []
 
-    def has_been_popped(self, projs):
-        """Determine if any of the projectiles on screen have hit this
-        enemy."""
-        for proj in projs:
-            if proj.hitbox.colliderect(self.hitbox):
-                proj.collided = True
-                return True
-        return False
+    def __get_rand_enemy_file(self):
+        # Obtain an enemy image file with a random color from Enemy.__COLORS.
+        return __IMG_FILE_FMT.format(color=random.choice(__COLORS))
+
+    def __get_init_pos(self, screen_res):
+        pass
 
     def __get_rand_pos(self, res):
         (scr_w,scr_h) = res

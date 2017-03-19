@@ -5,6 +5,8 @@ __email__ = 'DominicAnthonyGomez@gmail.com'
 
 import operator
 
+BLACK = (0,0,0)
+
 def tupadd(lhs, rhs):
     """Componentwise addition of tuples.
 

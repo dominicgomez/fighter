@@ -1,6 +1,8 @@
 __author__ = 'Dominic Gomez'
 __email__ = 'DominicAnthonyGomez@gmail.com'
 
+import dirs
+import os
 import pygame
 import random
 import util
@@ -24,7 +26,7 @@ class Fighter(pygame.sprite.Sprite):
     __COLORS = ['blue','green','orange','red']
     # All fighter image files are in this format. A random fighter color is
     # chosen and loaded when the constructor is called.
-    __IMG_FILE_FMT = os.path.join(img_res_dir, 'figher_{color}.png')
+    __IMG_FILE_FMT = os.path.join(dirs.IMG_RES_DIR, 'figher_{color}.png')
 
     def __init__(self, screen_res):
         """Initialize a fighter plane object.
@@ -33,6 +35,9 @@ class Fighter(pygame.sprite.Sprite):
             screen_res ((int,int)): The (w,h) dimensions of the screen.
 
         Attrs:
+            alive (bool): Whether the fighter is alive. The game should set
+                this flag to False when it detects a collision involving this
+                fighter.
             img (pygame.Surface): The fighter's image.
             pos ((int,int)): The (x,y) coords of the fighter's image.
             rect (pygame.Rect): The rectangle that surrounds the fighter's
@@ -46,6 +51,8 @@ class Fighter(pygame.sprite.Sprite):
 
         """
         pygame.sprite.Sprite.__init__(self)
+
+        self.alive = True
         self.img = pygame.image.load(self.__get_rand_fighter_file())
         self.pos = self.__get_init_pos(screen_res)
         self.rect = self.img.get_rect(topleft=self.pos)
@@ -90,7 +97,7 @@ class Fighter(pygame.sprite.Sprite):
     def __get_rand_fighter_file(self):
         # Obtain a fighter image file with a random color from
         # Fighter.__COLORS.
-        return __IMG_FILE_FMT.format(random.choice(__COLORS))
+        return __IMG_FILE_FMT.format(choice=random.choice(__COLORS))
 
     def __get_init_pos(self, res):
         # Get an initial position for the fighter (the center of the bottom
