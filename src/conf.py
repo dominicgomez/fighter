@@ -3,75 +3,80 @@ __email__ = 'DominicAnthonyGomez@gmail.com'
 
 """Configuration and settings.
 
-    Data:
-        game_name (str): The game's name.
-        game_author (str): The game's author.
-        game_version (str): The game's version.
+Data:
+    screen_res ((int,int)): The screen resolution.
+    framerate (int):
 
-        SCREEN_RES ((int,int)): The screen resolution.
+    res_dir (str): The game's resource directory.
+    font_res_dir (str): The game's font resource subdirectory.
+    img_res_dir (str): The game's image resource subdirectory.
+    audio_res_dir (str): The game's audio resource subdirectory.
 
-        TITLE_FONT_SIZE (int): The size of the game's title font.
-        FONT_SIZE (int): The size of the game's general font.
+    title_font_size (int): The size of the game's title font.
+    font_size (int): The size of the game's general font.
+    title_font_file (str): The game's title font file.
+    font_file (str): The game's general font file.
 
-        FIGHTER_COLORS ([str]): Available fighter colors.
-        ENEMY_COLORS ([str]): Available enemy colors.
+    bg_img_file (str): The game's background image file.
 
-        RES_DIR (str): The game's resource directory.
-        FONT_RES_DIR (str): The game's font resource directory.
-        IMG_RES_DIR (str): The game's image resource directory.
-        AUDIO_RES_DIR (str): The game's audio resource directory.
+    fighter_colors ([str]): Available fighter colors. Should match the names of
+        the appropriate files in the image resource subdirectory.
+    fighter_img_file_fmt (str): The game's fighter image file format. The
+        placeholder should be replaced with a value from fighter_colors to
+        obtain a path to a fighter image file.
+    fighter_speed (int): The fighter's speed in pixels per frame.
+    fighter_projectile_speed (int): The fighter's projectile's speed in pixels
+        per frame.
 
-        TITLE_FONT_FILE (str): The game's
-        FONT_FILE (str):
+    enemy_colors ([str]): Available enemy colors. Should match the names of the
+        appropriate files in the image resource subdirectory.
+    enemy_img_file_fmt (str): The game's enemy image file format. The
+        placeholder should be replaced with a value from enemy_colors to obtain
+        a path to a enemy image file.
+    enemy_speed_rng ((int,int)): The (inclusive) upper and lower limits of the
+        enemies' speeds.
+    enemy_projectile_speed_rng ((int,int)): The (inclusive) upper and lower
+        limits of the enemies' projectiles' speeds.
 
-        BG_IMG_FILE (str):
-        FIGHTER_IMG_FILE_FMT (str):
-        PROJECTILE_IMG_FILE_FMT (str):
-        ENEMY_IMG_FILE_FMT (str):
-
-        MAIN_MENU_ITEMS (str):
-        GAME_MODES (str):
-
-        FIGHTER_SPEED (int):
-        FIGHTER_PROJECTILE_SPEED (int):
-        ENEMY_SPEED_RNG ((int,int)):
-        ENEMY_PROJECTILE_SPEED_RNG ((int,int)):
-
-        FRAMERATE (int):
+    projectile_types ([str]): Available projectile types. Should match the
+        names of the appropriate files in the image resource subdirectory.
+    projectile_img_file_fmt (str): The game's projectile image file format.
+        The placeholder should be replaced with a value from projectile_types
+        to obtain a path to a projectile image file.
 
 """
 
-game_name = 'Fighter'
-game_author = 'Dominic Gomez'
-game_version = None
-
-screen_resolution = (600,800)
-
+# Display
+# -------
+screen_res = (600,800)
 framerate = 60
 
-title_font_size = 12
-font_size = 12
-
-fighter_colors = ['blue','green','orange','red']
-enemy_colors = ['black','blue','green','red']
-
+# Resource Directories
+# --------------------
 res_dir = os.path.join('..', 'res')
 font_res_dir = os.path.join(res_dir, 'font')
 img_res_dir = os.path.join(res_dir, 'img')
 audio_res_dir = os.path.join(res_dir, 'audio')
 
+# Font
+# ----
+title_font_size = 12
+font_size = 12
 title_font_file = os.path.join(font_res_dir, 'title_font.ttf')
 font_file = os.path.join(font_res_dir, 'font.ttf')
 
+# Background
+# ----------
 bg_img_file = os.path.join(img_res_dir, 'bg_blue_stars.png')
-fighter_img_file_fmt = os.path.join(img_res_dir, 'fighter_{color}.png')
-projectile_img_file_fmt = os.path.join(img_res_dir, 'proj.png')
+
+# Enemy
+# -----
+enemy_colors = ['black','blue','green','red']
 enemy_img_file_fmt = os.path.join(img_res_dir, 'enemy_{color}.png')
-
-main_menu_items = ['play','high scores','settings']
-game_modes = ['standard','survival']
-
-fighter_speed = 5
-fighter_projectile_speed = 10
 enemy_speed_rng = (0,10)
 enemy_projectile_speed_rng = (5,15)
+
+# Projectile
+# ----------
+projectile_types = ['fighter','enemy']
+projectile_img_file_fmt = os.path.join(img_res_dir, 'proj_{type}.png')

@@ -4,28 +4,42 @@ __email__ = 'DominicAnthonyGomez@gmail.com'
 import pygame
 import random
 
-import const
-
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, res, pos=None):
+    """An enemy."""
+
+    # The enemy's (inclusive) range of speeds, randomly generated when an
+    # object is constructed.
+    __SPEED_RNG = (0,10)
+    # The enemy's (inclusive) range of projectile speeds, randomly generated
+    # when an enemy shoots a projectile.
+    __PROJECTILE_SPEED_RNG = (0,10)
+    # Available enemy colors.
+    __COLORS = ['black','blue','green','red']
+    # All enemy image files are in this format. A random enemy color is chosen
+    # and loaded when the constructor is called.
+    __IMG_FILE_FMT = os.path.join(img_res_dir, 'enemy_{color}.png')
+
+    def __init__(self, screen_res):
         """Initialize an enemy object.
 
         Args:
-            res ((int,int)): The (w,h) dimensions of the screen.
-            pos ((int,int)): The position of the enemy. If this value is None,
-                a random position is generated for the enemy.
+            screen_res ((int,int)): The (w,h) dimensions of the screen.
 
         Attrs:
             img (pygame.Surface): The enemy's image.
-            hitbox (pygame.Rect): The area used for collision detection.
             pos ((int,int)): The (x,y) coords of the enemy's image.
+            rect (pygame.Rect): The rectangle that surrounds the enemy's image.
+            hitbox (pygame.Rect): The area used for collision detection.
             attack (int): The enemy's attack value.
             defense (int): The enemy's defense value.
+            projectiles ([projectile.Projectile]): All of the projectiles that
+                the enemy has shot.
 
         """
         pygame.sprite.Sprite.__init__(self)
         self.img = pygame.image.load(const.ENEMY_IMG)
-        self.pos = self.__get_rand_pos(res) if pos is None else pos
+        self.pos = self.__get_rand_pos(screen_res)
+        self.rect = self.img.get_rect(topleft=self.pos)
         self.hitbox = self.img.get_rect(topleft=self.pos)
         self.attack = 1
         self.defense = 1
