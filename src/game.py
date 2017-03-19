@@ -14,8 +14,8 @@ class TitleScene:
     __OPTIONS = ['play','high scores','settings']
 
     def draw(self, screen):
-        options_pos = self.__draw_title(screen)
-        self.__draw_options(screen, options_pos)
+        selector_pos = self.__draw_title(screen)
+        self.__draw_options(screen, selector_pos)
 
     def update(self):
         pass
@@ -38,11 +38,14 @@ class TitleScene:
         y = screen_rect.centery - int(title_rect.height / 2)
         return (x,y)
 
-    def __draw_options(self, screen, options_pos):
+    def __draw_options(self, screen, selector_pos):
         font = pygame.font.Font(Game.FONT_FILE, Game.FONT_SIZE)
+        selector = font.render('*', True, (0,0,0))
+        screen.blit(selector, selector_pos)
         option_labels = []
         for option in TitleScene.__OPTIONS:
             option_labels.append(font.render(option, True, (0,0,0)))
+        options_pos = (selector_pos[0]+selector.get_width(),selector_pos[1])
         for option_label in option_labels:
             screen.blit(option_label, options_pos)
             options_pos = (options_pos[0],options_pos[1]+option_label.get_height())
