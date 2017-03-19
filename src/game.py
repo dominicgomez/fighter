@@ -4,51 +4,52 @@ __email__ = 'DominicAnthonyGomez@gmail.com'
 import dirs
 import os
 import pygame
+import scene
 import util
 from enemy import Enemy
 from fighter import Fighter
 from pygame.locals import *
 
-class TitleScene:
-    # The options to choose from.
-    __OPTIONS = ['play','high scores','settings']
+# class TitleScene:
+#     # The options to choose from.
+#     __OPTIONS = ['play','high scores','settings']
 
-    def draw(self, screen):
-        selector_pos = self.__draw_title(screen)
-        self.__draw_options(screen, selector_pos)
+#     def draw(self, screen):
+#         selector_pos = self.__draw_title(screen)
+#         self.__draw_options(screen, selector_pos)
 
-    def update(self):
-        pass
+#     def update(self):
+#         pass
 
-    def handle_event(self, event, keys):
-        pass
+#     def handle_event(self, event, keys):
+#         pass
 
-    def __draw_title(self, screen):
-        title_font = pygame.font.Font(Game.TITLE_FONT_FILE,
-                                      Game.TITLE_FONT_SIZE)
-        title_label = title_font.render(Game.NAME, True, (0,0,0))
-        title_pos = self.__center_title(screen.get_rect(),
-                                        title_label.get_rect())
-        screen.blit(title_label, title_pos)
-        return title_label.get_rect(topleft=title_pos).bottomleft
+#     def __draw_title(self, screen):
+#         title_font = pygame.font.Font(Game.TITLE_FONT_FILE,
+#                                       Game.TITLE_FONT_SIZE)
+#         title_label = title_font.render(Game.NAME, True, (0,0,0))
+#         title_pos = self.__center_title(screen.get_rect(),
+#                                         title_label.get_rect())
+#         screen.blit(title_label, title_pos)
+#         return title_label.get_rect(topleft=title_pos).bottomleft
 
-    def __center_title(self, screen_rect, title_rect):
-        # Get the center of the screen, and offset the title appropriately.
-        x = screen_rect.centerx - int(title_rect.width / 2)
-        y = screen_rect.centery - int(title_rect.height / 2)
-        return (x,y)
+#     def __center_title(self, screen_rect, title_rect):
+#         # Get the center of the screen, and offset the title appropriately.
+#         x = screen_rect.centerx - int(title_rect.width / 2)
+#         y = screen_rect.centery - int(title_rect.height / 2)
+#         return (x,y)
 
-    def __draw_options(self, screen, selector_pos):
-        font = pygame.font.Font(Game.FONT_FILE, Game.FONT_SIZE)
-        selector = font.render('*', True, (0,0,0))
-        screen.blit(selector, selector_pos)
-        option_labels = []
-        for option in TitleScene.__OPTIONS:
-            option_labels.append(font.render(option, True, (0,0,0)))
-        options_pos = (selector_pos[0]+selector.get_width(),selector_pos[1])
-        for option_label in option_labels:
-            screen.blit(option_label, options_pos)
-            options_pos = (options_pos[0],options_pos[1]+option_label.get_height())
+#     def __draw_options(self, screen, selector_pos):
+#         font = pygame.font.Font(Game.FONT_FILE, Game.FONT_SIZE)
+#         selector = font.render('*', True, (0,0,0))
+#         screen.blit(selector, selector_pos)
+#         option_labels = []
+#         for option in TitleScene.__OPTIONS:
+#             option_labels.append(font.render(option, True, (0,0,0)))
+#         options_pos = (selector_pos[0]+selector.get_width(),selector_pos[1])
+#         for option_label in option_labels:
+#             screen.blit(option_label, options_pos)
+#             options_pos = (options_pos[0],options_pos[1]+option_label.get_height())
 
 class PlayScene:
     def draw(self, screen):
@@ -105,13 +106,6 @@ class Game:
     FONT_SIZE = 32
     # A path to the font used for all other text in the game.
     FONT_FILE = os.path.join(dirs.FONT_RES_DIR, 'font.ttf')
-    # The game's scenes.
-    __SCENES = {
-        'title' : TitleScene(),
-        'play' : PlayScene(),
-        'high scores' : HighScoresScene(),
-        'settings' : SettingsScene()
-    }
 
     def __init__(self):
         """Initialize the game machine. (This constructor does not start a
@@ -121,7 +115,9 @@ class Game:
             clock (pygame.time.Clock):
             screen (pygame.Surface): The game's screen.
             bg (pygame.Surface): The game's background.
-            scene (type): The game's current scene (from __SCENES).
+            scenes ({str : scene.Scene}): A map from names of the game's scenes
+                to the objects that handle them.
+            scene (scene.Scene): The game's current scene (from scenes).
 
         """
         pygame.init()
@@ -129,7 +125,13 @@ class Game:
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(Game.__SCREEN_RES)
         self.bg = pygame.image.load(Game.__BG_IMG_FILE)
-        self.scene = Game.__SCENES['title']
+        self.scenes = {
+            'title' : scene.TitleScene(self.screen),
+            'play' : PlayScene(),
+            'high scores' : HighScoresScene(),
+            'settings' : SettingsScene()
+        }
+        self.scene = self.scenes['title']
         # self.scene = Game.__SCENES['play']
 
     def update(self):
@@ -176,7 +178,9 @@ def main():
                 game.scene.handle_event(event, keys)
                 game.scene.update()
                 game.draw_bg()
-                game.scene.draw(game.screen)
+                game.scene.draw(game.screen, Game.TITLE_FONT_FILE,
+                        Game.TITLE_FONT_SIZE, Game.FONT_FILE, Game.FONT_SIZE,
+                        Game.NAME)
                 pygame.display.flip()
     pygame.quit()
 
