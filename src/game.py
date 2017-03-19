@@ -33,7 +33,7 @@ from pygame.locals import *
 #         screen.blit(title_label, title_pos)
 #         return title_label.get_rect(topleft=title_pos).bottomleft
 
-#     def __center_title(self, screen_rect, title_rect):
+     def __center_title(self, screen_rect, title_rect):
 #         # Get the center of the screen, and offset the title appropriately.
 #         x = screen_rect.centerx - int(title_rect.width / 2)
 #         y = screen_rect.centery - int(title_rect.height / 2)
